@@ -1,0 +1,17 @@
+[Unit]
+Description=Puma HTTP Server
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=<UserForPuma>
+WorkingDirectory=<YourAppDir>
+Environment=RAILS_MASTER_KEY=<EncryptionKeyIfUsedByRailsApp>
+ExecStart=/usr/bin/rails s puma -b 'ssl://127.0.0.1:3000?key=<path_to_privatekey.key>&cert=<path_to_certificate.crt>' -e production
+Restart=always
+RestartSec=2
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
